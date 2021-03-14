@@ -51,6 +51,7 @@ class LdapSync extends Command
         $ldap_result_active_flag = Setting::getSettings()->ldap_active_flag_field;
         $ldap_result_emp_num = Setting::getSettings()->ldap_emp_num;
         $ldap_result_email = Setting::getSettings()->ldap_email;
+        $ldap_result_jobtitle = Setting::getSettings()->ldap_jobtitle;
 
         try {
             $ldapconn = Ldap::connectToLdap();
@@ -173,6 +174,7 @@ class LdapSync extends Command
                 $item["lastname"] = isset($results[$i][$ldap_result_last_name][0]) ? $results[$i][$ldap_result_last_name][0] : "";
                 $item["firstname"] = isset($results[$i][$ldap_result_first_name][0]) ? $results[$i][$ldap_result_first_name][0] : "";
                 $item["email"] = isset($results[$i][$ldap_result_email][0]) ? $results[$i][$ldap_result_email][0] : "" ;
+                $item["jobtitle"] = isset($results[$i][$ldap_result_jobtitle][0]) ? $results[$i][$ldap_result_jobtitle][0] : "" ;
                 $item["ldap_location_override"] = isset($results[$i]["ldap_location_override"]) ? $results[$i]["ldap_location_override"]:"";
                 $item["location_id"] = isset($results[$i]["location_id"]) ? $results[$i]["location_id"]:"";
 
@@ -192,6 +194,7 @@ class LdapSync extends Command
                 $user->last_name = $item["lastname"];
                 $user->username = $item["username"];
                 $user->email = $item["email"];
+                $user->jobtitle = $item["jobtitle"];
                 $user->employee_num = e($item["employee_number"]);
 
                 // Sync activated state for Active Directory.
